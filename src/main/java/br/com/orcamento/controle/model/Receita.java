@@ -5,22 +5,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "receitas")
 public class Receita {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String descricao;
     private BigDecimal valor;
-    private LocalDateTime dataLancamento;
+    private LocalDate dataLancamento;
 
     public Receita() {
     }
 
-    public Receita(String descricao, BigDecimal valor, LocalDateTime dataLancamento) {
+    public Receita(String descricao, BigDecimal valor, LocalDate dataLancamento) {
         this.descricao = descricao;
         this.valor = valor;
         this.dataLancamento = dataLancamento;
@@ -38,7 +38,7 @@ public class Receita {
         return valor;
     }
 
-    public LocalDateTime getDataLancamento() {
+    public LocalDate getDataLancamento() {
         return dataLancamento;
     }
 

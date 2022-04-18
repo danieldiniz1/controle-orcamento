@@ -1,20 +1,18 @@
 package br.com.orcamento.controle.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "despesas")
 public class Despesa {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String descricao;
     private BigDecimal valor;
+    @Column(name = "data_do_lançamento")
     private LocalDateTime dataLancamento;
 
     public Despesa() {
