@@ -1,9 +1,15 @@
 package br.com.orcamento.controle.controller.form;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class ReceitaForm {
 
+    @NotNull @NotEmpty
     private String descricao;
+    @NotNull @NotEmpty
     private double valor;
+    @NotNull @NotEmpty
     private String dataLancamento;
 
     public String getDescricao() {
