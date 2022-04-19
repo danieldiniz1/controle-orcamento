@@ -1,15 +1,14 @@
 package br.com.orcamento.controle.controller.form;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 public class ReceitaForm {
 
-    @NotNull @NotEmpty
+    @NotBlank(message = "Valor Inválido") @Size(min = 3)
     private String descricao;
-    @NotNull @NotEmpty
-    private double valor;
-    @NotNull @NotEmpty
+    @NotBlank(message = "Valor Inválido")
+    private String valor;
+    @NotBlank(message = "Valor Inválido") @Size(min = 10, max = 11, message = "data deve estar no formado yyyy/MM/dd")
     private String dataLancamento;
 
     public String getDescricao() {
@@ -20,11 +19,11 @@ public class ReceitaForm {
         this.descricao = descricao;
     }
 
-    public double getValor() {
+    public String getValor() {
         return valor;
     }
 
-    public void setValor(double valor) {
+    public void setValor(String valor) {
         this.valor = valor;
     }
 

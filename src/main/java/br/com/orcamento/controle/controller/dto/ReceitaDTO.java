@@ -11,7 +11,7 @@ public class ReceitaDTO {
 
     public ReceitaDTO(ReceitaForm receita) {
         this.descricao = receita.getDescricao();
-        this.valor = receita.getValor();
+        this.valor = Double.parseDouble(receita.getValor());
         this.dataLancamento = receita.getDataLancamento();
     }
 

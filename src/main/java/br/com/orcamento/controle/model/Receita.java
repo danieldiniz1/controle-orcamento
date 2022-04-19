@@ -47,11 +47,11 @@ public class Receita {
         if (this == o) return true;
         if (!(o instanceof Receita)) return false;
         Receita receita = (Receita) o;
-        return getId().equals(receita.getId());
+        return getDescricao().equals(receita.getDescricao()) && getDataLancamento().equals(receita.getDataLancamento());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(getId(), getDescricao(), getDataLancamento());
     }
 }
