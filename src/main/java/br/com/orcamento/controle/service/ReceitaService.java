@@ -1,15 +1,14 @@
 package br.com.orcamento.controle.service;
 
 import br.com.orcamento.controle.controller.form.ReceitaForm;
+import br.com.orcamento.controle.exception.ObjectNotFoundException;
 import br.com.orcamento.controle.exception.ValorJaExisteNoBancoException;
 import br.com.orcamento.controle.model.Receita;
 import br.com.orcamento.controle.repository.ReceitaRepository;
-import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -34,5 +33,14 @@ public class ReceitaService {
             }
         });
 
+    }
+
+    public List<Receita> listarTodasAsReceitas() {
+        return receitaRepository.findAll();
+    }
+
+    public Receita listarReceitaPorId(Long id) {
+        return receitaRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("" +
+                "A Receita de id: " + id + " não foi encontrada no BD, Tipo: " + Receita.class.getName()));
     }
 }
