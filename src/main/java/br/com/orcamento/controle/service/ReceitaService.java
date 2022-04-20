@@ -42,4 +42,8 @@ public class ReceitaService {
         receita.setValor(BigDecimal.valueOf(Double.valueOf(receitaForm.getValor())));
         receitaRepository.save(receita);
     }
+
+    public void deletarPorId(Long id) {
+        receitaRepository.deleteById(id);
+    }
 }

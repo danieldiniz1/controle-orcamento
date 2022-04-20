@@ -40,4 +40,12 @@ public class ReceitaController {
         receitaService.atualizarReceita(receitaForm, id);
         return ResponseEntity.ok(new ReceitaDTO(receitaForm));
     }
+
+    @DeleteMapping("deletar/{id}")
+    public ResponseEntity deletarPorId(@PathVariable Long id){
+        receitaService.deletarPorId(id);
+        return ResponseEntity.status(204).build();
+    }
+
+
 }
