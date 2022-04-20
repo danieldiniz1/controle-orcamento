@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -32,6 +31,13 @@ public class ReceitaController {
 
     @GetMapping("listar/{id}")
     public ResponseEntity<Receita> buscarReceitaPorId(@PathVariable Long id){
-        return ResponseEntity.ok().body(receitaService.listarReceitaPorId(id));
+        return ResponseEntity.ok().body(receitaService.buscarReceitaPorId(id));
+    }
+
+    @PostMapping("atualizar/{id}")
+    public ResponseEntity<ReceitaDTO> atualizarReceita(@PathVariable Long id,
+                                                       @RequestBody @Valid ReceitaForm receitaForm){
+        receitaService.atualizarReceita(receitaForm, id);
+        return ResponseEntity.ok(new ReceitaDTO(receitaForm));
     }
 }

@@ -9,4 +9,6 @@ import java.util.List;
 public interface ReceitaRepository extends JpaRepository<Receita, Long> {
 
     List<Receita> findAllByDataLancamento(LocalDate dataLancamento);
+
+    boolean existsByDataLancamentoAndDescricao(LocalDate dataLancamento, String descricao);
 }

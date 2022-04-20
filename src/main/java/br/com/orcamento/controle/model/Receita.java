@@ -1,5 +1,7 @@
 package br.com.orcamento.controle.model;
 
+import br.com.orcamento.controle.controller.form.ReceitaForm;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -43,6 +45,18 @@ public class Receita implements Serializable {
         return dataLancamento;
     }
 
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
+
+    public void setDataLancamento(LocalDate dataLancamento) {
+        this.dataLancamento = dataLancamento;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,5 +68,12 @@ public class Receita implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getDescricao(), getDataLancamento());
+    }
+
+    public static Receita of(ReceitaForm receitaForm){
+        Receita receita = new Receita(receitaForm.getDescricao(),
+        BigDecimal.valueOf(Double.valueOf(receitaForm.getValor())),
+        LocalDate.parse(receitaForm.getDataLancamento()));
+        return receita;
     }
 }
