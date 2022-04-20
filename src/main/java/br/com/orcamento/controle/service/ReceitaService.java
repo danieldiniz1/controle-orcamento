@@ -17,32 +17,16 @@ public class ReceitaService {
 
     @Autowired
     ReceitaRepository receitaRepository;
-//    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     public void cadastrarReceita(ReceitaForm receitaForm) {
-        System.out.println(receitaRepository.existsByDataLancamentoAndDescricao(LocalDate.parse(receitaForm.getDataLancamento()), receitaForm.getDescricao()));
         if (receitaRepository.existsByDataLancamentoAndDescricao(LocalDate.parse(receitaForm.getDataLancamento()), receitaForm.getDescricao())){
             throw new ValorJaExisteNoBancoDeDadosException("O lançamento já foi registrado anterioremente");
         } else {
                 receitaRepository.save(Receita.of(receitaForm));
             }
-
-        //        Receita receita = new Receita(receitaForm.getDescricao(),
-//                BigDecimal.valueOf(Double.valueOf(receitaForm.getValor())),
-//                LocalDate.parse(receitaForm.getDataLancamento()));
-//        List<Receita> receitas = receitaRepository.findAllByDataLancamento(LocalDate.parse(receitaForm.getDataLancamento()));
-//        receitas.forEach(r -> {
-//            if (r.equals(receita)){
-//                throw new ValorJaExisteNoBancoDeDadosException("O lançamento já foi registrado anterioremente");
-//            } else {
-//                receitaRepository.save(receita);
-//            }
-//        });
-
     }
 
     public List<Receita> listarTodasAsReceitas() {
-
         return receitaRepository.findAll();
     }
 
