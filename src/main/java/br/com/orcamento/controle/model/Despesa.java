@@ -1,24 +1,28 @@
 package br.com.orcamento.controle.model;
 
+import br.com.orcamento.controle.controller.form.DespesaForm;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity(name = "despesas")
-public class Despesa {
+public class Despesa implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String descricao;
     private BigDecimal valor;
     @Column(name = "data_do_lançamento")
-    private LocalDateTime dataLancamento;
+    private LocalDate dataLancamento;
 
     public Despesa() {
     }
 
-    public Despesa(String descricao, BigDecimal valor, LocalDateTime dataLancamento) {
+    public Despesa(String descricao, BigDecimal valor, LocalDate dataLancamento) {
         this.descricao = descricao;
         this.valor = valor;
         this.dataLancamento = dataLancamento;
@@ -36,8 +40,20 @@ public class Despesa {
         return valor;
     }
 
-    public LocalDateTime getDataLancamento() {
+    public LocalDate getDataLancamento() {
         return dataLancamento;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
+
+    public void setDataLancamento(LocalDate dataLancamento) {
+        this.dataLancamento = dataLancamento;
     }
 
     @Override
@@ -51,5 +67,11 @@ public class Despesa {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    public static Despesa of(DespesaForm despesaForm){
+        return new Despesa(despesaForm.getDescricao(),
+                BigDecimal.valueOf(Double.parseDouble(despesaForm.getValor())),
+                LocalDate.parse(despesaForm.getDataLancamento()));
     }
 }

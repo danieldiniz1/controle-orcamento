@@ -37,13 +37,13 @@ public class ReceitaService {
 
     public void atualizarReceita(ReceitaForm receitaForm, Long id) {
         Receita receita = buscarReceitaPorId(id);
-        receita.setDescricao(receita.getDescricao());
+        receita.setDescricao(receitaForm.getDescricao());
         receita.setDataLancamento(LocalDate.parse(receitaForm.getDataLancamento()));
         receita.setValor(BigDecimal.valueOf(Double.valueOf(receitaForm.getValor())));
         receitaRepository.save(receita);
     }
 
-    public void deletarPorId(Long id) {
+    public void deletarReceitaPorId(Long id) {
         receitaRepository.deleteById(id);
     }
 }

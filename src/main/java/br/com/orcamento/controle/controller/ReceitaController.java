@@ -43,7 +43,7 @@ public class ReceitaController {
 
     @DeleteMapping("deletar/{id}")
     public ResponseEntity deletarPorId(@PathVariable Long id){
-        receitaService.deletarPorId(id);
+        receitaService.deletarReceitaPorId(id);
         return ResponseEntity.status(204).build();
     }
 

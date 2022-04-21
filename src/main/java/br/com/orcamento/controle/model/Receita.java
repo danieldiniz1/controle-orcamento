@@ -2,10 +2,7 @@ package br.com.orcamento.controle.model;
 
 import br.com.orcamento.controle.controller.form.ReceitaForm;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,9 +15,11 @@ public class Receita implements Serializable {
     private Long id;
     private String descricao;
     private BigDecimal valor;
+    @Column(name = "data_do_lançamento")
     private LocalDate dataLancamento;
 
     public Receita() {
+        // Construtor default
     }
 
     public Receita(String descricao, BigDecimal valor, LocalDate dataLancamento) {
