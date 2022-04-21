@@ -1,9 +1,8 @@
 package br.com.orcamento.controle.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import br.com.orcamento.controle.controller.form.ReceitaForm;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,9 +15,11 @@ public class Receita implements Serializable {
     private Long id;
     private String descricao;
     private BigDecimal valor;
+    @Column(name = "data_do_lançamento")
     private LocalDate dataLancamento;
 
     public Receita() {
+        // Construtor default
     }
 
     public Receita(String descricao, BigDecimal valor, LocalDate dataLancamento) {
@@ -43,6 +44,18 @@ public class Receita implements Serializable {
         return dataLancamento;
     }
 
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
+
+    public void setDataLancamento(LocalDate dataLancamento) {
+        this.dataLancamento = dataLancamento;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,5 +67,12 @@ public class Receita implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getDescricao(), getDataLancamento());
+    }
+
+    public static Receita of(ReceitaForm receitaForm){
+        Receita receita = new Receita(receitaForm.getDescricao(),
+        BigDecimal.valueOf(Double.valueOf(receitaForm.getValor())),
+        LocalDate.parse(receitaForm.getDataLancamento()));
+        return receita;
     }
 }

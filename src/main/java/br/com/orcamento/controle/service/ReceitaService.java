@@ -2,7 +2,7 @@ package br.com.orcamento.controle.service;
 
 import br.com.orcamento.controle.controller.form.ReceitaForm;
 import br.com.orcamento.controle.exception.ObjectNotFoundException;
-import br.com.orcamento.controle.exception.ValorJaExisteNoBancoException;
+import br.com.orcamento.controle.exception.ValorJaExisteNoBancoDeDadosException;
 import br.com.orcamento.controle.model.Receita;
 import br.com.orcamento.controle.repository.ReceitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,30 +17,33 @@ public class ReceitaService {
 
     @Autowired
     ReceitaRepository receitaRepository;
-//    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     public void cadastrarReceita(ReceitaForm receitaForm) {
-        Receita receita = new Receita(receitaForm.getDescricao(),
-                BigDecimal.valueOf(Double.valueOf(receitaForm.getValor())),
-                LocalDate.parse(receitaForm.getDataLancamento()));
-        List<Receita> receitas = receitaRepository.findAllByDataLancamento(LocalDate.parse(receitaForm.getDataLancamento()));
-
-        receitas.forEach(r -> {
-            if (r.equals(receita)){
-                throw new ValorJaExisteNoBancoException("O lançamento já foi registrado anterioremente");
-            } else {
-                receitaRepository.save(receita);
+        if (receitaRepository.existsByDataLancamentoAndDescricao(LocalDate.parse(receitaForm.getDataLancamento()), receitaForm.getDescricao())){
+            throw new ValorJaExisteNoBancoDeDadosException("O lançamento já foi registrado anterioremente");
+        } else {
+                receitaRepository.save(Receita.of(receitaForm));
             }
-        });
-
     }
 
     public List<Receita> listarTodasAsReceitas() {
         return receitaRepository.findAll();
     }
 
-    public Receita listarReceitaPorId(Long id) {
+    public Receita buscarReceitaPorId(Long id) {
         return receitaRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("" +
                 "A Receita de id: " + id + " não foi encontrada no BD, Tipo: " + Receita.class.getName()));
+    }
+
+    public void atualizarReceita(ReceitaForm receitaForm, Long id) {
+        Receita receita = buscarReceitaPorId(id);
+        receita.setDescricao(receitaForm.getDescricao());
+        receita.setDataLancamento(LocalDate.parse(receitaForm.getDataLancamento()));
+        receita.setValor(BigDecimal.valueOf(Double.valueOf(receitaForm.getValor())));
+        receitaRepository.save(receita);
+    }
+
+    public void deletarReceitaPorId(Long id) {
+        receitaRepository.deleteById(id);
     }
 }
