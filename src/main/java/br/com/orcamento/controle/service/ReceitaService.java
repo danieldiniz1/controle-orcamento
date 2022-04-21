@@ -16,7 +16,9 @@ import java.util.List;
 public class ReceitaService {
 
     @Autowired
-    ReceitaRepository receitaRepository;
+    private ReceitaRepository receitaRepository;
+
+
 
     public void cadastrarReceita(ReceitaForm receitaForm) {
         if (receitaRepository.existsByDataLancamentoAndDescricao(LocalDate.parse(receitaForm.getDataLancamento()), receitaForm.getDescricao())){
@@ -36,14 +38,18 @@ public class ReceitaService {
     }
 
     public void atualizarReceita(ReceitaForm receitaForm, Long id) {
-        Receita receita = buscarReceitaPorId(id);
-        receita.setDescricao(receitaForm.getDescricao());
-        receita.setDataLancamento(LocalDate.parse(receitaForm.getDataLancamento()));
-        receita.setValor(BigDecimal.valueOf(Double.valueOf(receitaForm.getValor())));
-        receitaRepository.save(receita);
+
+        receitaRepository.save(atualizaDadosDeReceita(buscarReceitaPorId(id),receitaForm));
     }
 
     public void deletarReceitaPorId(Long id) {
         receitaRepository.deleteById(id);
+    }
+
+    private Receita atualizaDadosDeReceita(Receita receita, ReceitaForm receitaForm){
+        receita.setDescricao(receitaForm.getDescricao());
+        receita.setDataLancamento(LocalDate.parse(receitaForm.getDataLancamento()));
+        receita.setValor(BigDecimal.valueOf(Double.valueOf(receitaForm.getValor())));
+        return receita;
     }
 }

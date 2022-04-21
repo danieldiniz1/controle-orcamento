@@ -21,7 +21,7 @@ public class ReceitaController {
     @PostMapping("/cadastro")
     public ResponseEntity<ReceitaDTO> cadastroReceita(@RequestBody @Valid ReceitaForm receitaForm){
         receitaService.cadastrarReceita(receitaForm);
-        return ResponseEntity.ok(new ReceitaDTO(receitaForm));
+        return ResponseEntity.status(201).body(new ReceitaDTO(receitaForm));
     }
 
     @GetMapping("/listar")
@@ -38,7 +38,7 @@ public class ReceitaController {
     public ResponseEntity<ReceitaDTO> atualizarReceita(@PathVariable Long id,
                                                        @RequestBody @Valid ReceitaForm receitaForm){
         receitaService.atualizarReceita(receitaForm, id);
-        return ResponseEntity.ok(new ReceitaDTO(receitaForm));
+        return ResponseEntity.status(201).body(new ReceitaDTO(receitaForm));
     }
 
     @DeleteMapping("deletar/{id}")

@@ -1,14 +1,13 @@
 package br.com.orcamento.controle.service;
 
-import br.com.orcamento.controle.controller.dto.DespesaDTO;
 import br.com.orcamento.controle.controller.form.DespesaForm;
 import br.com.orcamento.controle.exception.ObjectNotFoundException;
 import br.com.orcamento.controle.exception.ValorJaExisteNoBancoDeDadosException;
 import br.com.orcamento.controle.model.Despesa;
-import br.com.orcamento.controle.model.Receita;
 import br.com.orcamento.controle.repository.DespesaRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -20,6 +19,8 @@ public class DespesaService {
 
     @Autowired
     private DespesaRepository despesaRepository;
+
+    private final Logger logger = LogManager.getLogger(this.getClass());
 
     public void cadastrarDespesa(DespesaForm despesaForm) {
         if (despesaRepository.existsByDataLancamentoAndDescricao(LocalDate.parse(despesaForm.getDataLancamento()),despesaForm.getDescricao())){
@@ -46,7 +47,9 @@ public class DespesaService {
     }
 
     public Despesa atualizaDadosDeDespesa(Despesa despesa, DespesaForm despesaForm){
+        logger.debug("Descrição Anterior" + despesa.getDescricao());
         despesa.setDescricao(despesaForm.getDescricao());
+        logger.debug("Descrição Anterior" + despesa.getDescricao());
         despesa.setDataLancamento(LocalDate.parse(despesaForm.getDataLancamento()));
         despesa.setValor(BigDecimal.valueOf(Double.parseDouble(despesaForm.getValor())));
         return despesa;
