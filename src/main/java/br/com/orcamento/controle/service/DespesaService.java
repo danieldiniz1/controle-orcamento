@@ -1,14 +1,13 @@
 package br.com.orcamento.controle.service;
 
-import br.com.orcamento.controle.controller.dto.DespesaDTO;
 import br.com.orcamento.controle.controller.form.DespesaForm;
 import br.com.orcamento.controle.exception.ObjectNotFoundException;
 import br.com.orcamento.controle.exception.ValorJaExisteNoBancoDeDadosException;
 import br.com.orcamento.controle.model.Despesa;
-import br.com.orcamento.controle.model.Receita;
 import br.com.orcamento.controle.repository.DespesaRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,10 +20,10 @@ public class DespesaService {
     @Autowired
     private DespesaRepository despesaRepository;
 
+    private static final Logger logger = LogManager.getLogger(DespesaService.class);
+
     public void cadastrarDespesa(DespesaForm despesaForm) {
-        if (despesaRepository.existsByDataLancamentoAndDescricao(LocalDate.parse(despesaForm.getDataLancamento()),despesaForm.getDescricao())){
-            throw new ValorJaExisteNoBancoDeDadosException("A despesa já existe no banco de dados");
-        }
+        validaDespesaExisteNoBancoDeDados(despesaForm);
         despesaRepository.save(Despesa.of(despesaForm));
     }
 
@@ -38,6 +37,7 @@ public class DespesaService {
     }
 
     public void atualizaDespesaPorId(Long id, DespesaForm despesaForm) {
+        validaDespesaExisteNoBancoDeDados(despesaForm);
         despesaRepository.save(atualizaDadosDeDespesa(buscarDespesaPorId(id),despesaForm));
     }
 
@@ -45,12 +45,22 @@ public class DespesaService {
         despesaRepository.deleteById(id);
     }
 
-    public Despesa atualizaDadosDeDespesa(Despesa despesa, DespesaForm despesaForm){
+    private Despesa atualizaDadosDeDespesa(Despesa despesa, DespesaForm despesaForm){
+        logger.info("Descrição Anterior " + despesa.getDescricao());
         despesa.setDescricao(despesaForm.getDescricao());
+        logger.info("Descrição nova " + despesa.getDescricao());
         despesa.setDataLancamento(LocalDate.parse(despesaForm.getDataLancamento()));
         despesa.setValor(BigDecimal.valueOf(Double.parseDouble(despesaForm.getValor())));
         return despesa;
     }
+
+    private Boolean validaDespesaExisteNoBancoDeDados(DespesaForm despesaForm){
+        if (despesaRepository.existsByDataLancamentoAndDescricao(LocalDate.parse(despesaForm.getDataLancamento()),despesaForm.getDescricao())){
+            throw new ValorJaExisteNoBancoDeDadosException("A despesa já existe no banco de dados");
+        }
+        return Boolean.FALSE;
+    }
+
 
 
 }
