@@ -20,7 +20,7 @@ public class DespesaService {
     @Autowired
     private DespesaRepository despesaRepository;
 
-    private final Logger logger = LogManager.getLogger(this.getClass());
+    private static final Logger logger = LogManager.getLogger(DespesaService.class);
 
     public void cadastrarDespesa(DespesaForm despesaForm) {
         if (despesaRepository.existsByDataLancamentoAndDescricao(LocalDate.parse(despesaForm.getDataLancamento()),despesaForm.getDescricao())){
@@ -47,9 +47,9 @@ public class DespesaService {
     }
 
     public Despesa atualizaDadosDeDespesa(Despesa despesa, DespesaForm despesaForm){
-        logger.debug("Descrição Anterior" + despesa.getDescricao());
+        logger.info("Descrição Anterior " + despesa.getDescricao());
         despesa.setDescricao(despesaForm.getDescricao());
-        logger.debug("Descrição Anterior" + despesa.getDescricao());
+        logger.info("Descrição nova " + despesa.getDescricao());
         despesa.setDataLancamento(LocalDate.parse(despesaForm.getDataLancamento()));
         despesa.setValor(BigDecimal.valueOf(Double.parseDouble(despesaForm.getValor())));
         return despesa;
