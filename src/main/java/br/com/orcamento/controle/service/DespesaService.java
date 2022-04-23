@@ -23,9 +23,7 @@ public class DespesaService {
     private static final Logger logger = LogManager.getLogger(DespesaService.class);
 
     public void cadastrarDespesa(DespesaForm despesaForm) {
-        if (despesaRepository.existsByDataLancamentoAndDescricao(LocalDate.parse(despesaForm.getDataLancamento()),despesaForm.getDescricao())){
-            throw new ValorJaExisteNoBancoDeDadosException("A despesa já existe no banco de dados");
-        }
+        validaDespesaExisteNoBancoDeDados(despesaForm);
         despesaRepository.save(Despesa.of(despesaForm));
     }
 
@@ -39,6 +37,7 @@ public class DespesaService {
     }
 
     public void atualizaDespesaPorId(Long id, DespesaForm despesaForm) {
+        validaDespesaExisteNoBancoDeDados(despesaForm);
         despesaRepository.save(atualizaDadosDeDespesa(buscarDespesaPorId(id),despesaForm));
     }
 
@@ -46,7 +45,7 @@ public class DespesaService {
         despesaRepository.deleteById(id);
     }
 
-    public Despesa atualizaDadosDeDespesa(Despesa despesa, DespesaForm despesaForm){
+    private Despesa atualizaDadosDeDespesa(Despesa despesa, DespesaForm despesaForm){
         logger.info("Descrição Anterior " + despesa.getDescricao());
         despesa.setDescricao(despesaForm.getDescricao());
         logger.info("Descrição nova " + despesa.getDescricao());
@@ -54,6 +53,14 @@ public class DespesaService {
         despesa.setValor(BigDecimal.valueOf(Double.parseDouble(despesaForm.getValor())));
         return despesa;
     }
+
+    private Boolean validaDespesaExisteNoBancoDeDados(DespesaForm despesaForm){
+        if (despesaRepository.existsByDataLancamentoAndDescricao(LocalDate.parse(despesaForm.getDataLancamento()),despesaForm.getDescricao())){
+            throw new ValorJaExisteNoBancoDeDadosException("A despesa já existe no banco de dados");
+        }
+        return Boolean.FALSE;
+    }
+
 
 
 }
