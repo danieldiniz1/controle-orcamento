@@ -18,14 +18,13 @@ public class ReceitaService {
     @Autowired
     private ReceitaRepository receitaRepository;
 
-
-
     public void cadastrarReceita(ReceitaForm receitaForm) {
-        if (receitaRepository.existsByDataLancamentoAndDescricao(LocalDate.parse(receitaForm.getDataLancamento()), receitaForm.getDescricao())){
-            throw new ValorJaExisteNoBancoDeDadosException("O lançamento já foi registrado anterioremente");
-        } else {
-                receitaRepository.save(Receita.of(receitaForm));
-            }
+        validaReceitaExisteNoBancoDeDados(receitaForm);
+//        if (receitaRepository.existsByDataLancamentoAndDescricao(LocalDate.parse(receitaForm.getDataLancamento()), receitaForm.getDescricao())){
+//            throw new ValorJaExisteNoBancoDeDadosException("O lançamento já foi registrado anterioremente");
+//        }
+        receitaRepository.save(Receita.of(receitaForm));
+
     }
 
     public List<Receita> listarTodasAsReceitas() {
@@ -38,7 +37,7 @@ public class ReceitaService {
     }
 
     public void atualizarReceita(ReceitaForm receitaForm, Long id) {
-
+        validaReceitaExisteNoBancoDeDados(receitaForm);
         receitaRepository.save(atualizaDadosDeReceita(buscarReceitaPorId(id),receitaForm));
     }
 
@@ -52,4 +51,12 @@ public class ReceitaService {
         receita.setValor(BigDecimal.valueOf(Double.valueOf(receitaForm.getValor())));
         return receita;
     }
+
+    private void validaReceitaExisteNoBancoDeDados(ReceitaForm receitaForm) {
+        if (receitaRepository.existsByDataLancamentoAndDescricao(LocalDate.parse(receitaForm.getDataLancamento()), receitaForm.getDescricao())) {
+            throw new ValorJaExisteNoBancoDeDadosException("O lançamento já existe no banco de dados!");
+        }
+    }
 }
+
+
