@@ -17,6 +17,7 @@ public class Receita implements Serializable {
     private BigDecimal valor;
     @Column(name = "data_do_lançamento")
     private LocalDate dataLancamento;
+    private Categoria categoria;
 
     public Receita() {
         // Construtor default
@@ -26,6 +27,13 @@ public class Receita implements Serializable {
         this.descricao = descricao;
         this.valor = valor;
         this.dataLancamento = dataLancamento;
+    }
+
+    public Receita(String descricao, BigDecimal valor, LocalDate dataLancamento, Categoria categoria) {
+        this.descricao = descricao;
+        this.valor = valor;
+        this.dataLancamento = dataLancamento;
+        this.categoria = categoria;
     }
 
     public Long getId() {
@@ -44,6 +52,10 @@ public class Receita implements Serializable {
         return dataLancamento;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
@@ -54,6 +66,10 @@ public class Receita implements Serializable {
 
     public void setDataLancamento(LocalDate dataLancamento) {
         this.dataLancamento = dataLancamento;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     @Override
@@ -72,7 +88,12 @@ public class Receita implements Serializable {
     public static Receita of(ReceitaForm receitaForm){
         Receita receita = new Receita(receitaForm.getDescricao(),
         BigDecimal.valueOf(Double.valueOf(receitaForm.getValor())),
-        LocalDate.parse(receitaForm.getDataLancamento()));
+        LocalDate.parse(receitaForm.getDataLancamento()),Categoria.toEnum(Integer.parseInt(receitaForm.getCodigoCategoria())));
         return receita;
     }
+
+    public void alteraCategoria(String numeroCategoria){
+        setCategoria(Categoria.toEnum(Integer.parseInt(numeroCategoria)));
+    }
+
 }

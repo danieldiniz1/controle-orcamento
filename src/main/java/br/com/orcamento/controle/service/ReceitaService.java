@@ -3,6 +3,7 @@ package br.com.orcamento.controle.service;
 import br.com.orcamento.controle.controller.form.ReceitaForm;
 import br.com.orcamento.controle.exception.ObjectNotFoundException;
 import br.com.orcamento.controle.exception.ValorJaExisteNoBancoDeDadosException;
+import br.com.orcamento.controle.model.Categoria;
 import br.com.orcamento.controle.model.Receita;
 import br.com.orcamento.controle.repository.ReceitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,7 @@ public class ReceitaService {
 
     public void cadastrarReceita(ReceitaForm receitaForm) {
         validaReceitaExisteNoBancoDeDados(receitaForm);
-//        if (receitaRepository.existsByDataLancamentoAndDescricao(LocalDate.parse(receitaForm.getDataLancamento()), receitaForm.getDescricao())){
-//            throw new ValorJaExisteNoBancoDeDadosException("O lançamento já foi registrado anterioremente");
-//        }
         receitaRepository.save(Receita.of(receitaForm));
-
     }
 
     public List<Receita> listarTodasAsReceitas() {
@@ -49,6 +46,7 @@ public class ReceitaService {
         receita.setDescricao(receitaForm.getDescricao());
         receita.setDataLancamento(LocalDate.parse(receitaForm.getDataLancamento()));
         receita.setValor(BigDecimal.valueOf(Double.valueOf(receitaForm.getValor())));
+        receita.alteraCategoria(receitaForm.getCodigoCategoria());
         return receita;
     }
 
@@ -57,6 +55,8 @@ public class ReceitaService {
             throw new ValorJaExisteNoBancoDeDadosException("O lançamento já existe no banco de dados!");
         }
     }
+
+
 }
 
 

@@ -18,6 +18,8 @@ public class Despesa implements Serializable {
     private BigDecimal valor;
     @Column(name = "data_do_lançamento")
     private LocalDate dataLancamento;
+    private Categoria categoria = Categoria.toEnum(1);
+
 
     public Despesa() {
     }
@@ -26,6 +28,13 @@ public class Despesa implements Serializable {
         this.descricao = descricao;
         this.valor = valor;
         this.dataLancamento = dataLancamento;
+    }
+
+    public Despesa(String descricao, BigDecimal valor, LocalDate dataLancamento, Categoria categoria) {
+        this.descricao = descricao;
+        this.valor = valor;
+        this.dataLancamento = dataLancamento;
+        this.categoria = categoria;
     }
 
     public Long getId() {
@@ -44,6 +53,8 @@ public class Despesa implements Serializable {
         return dataLancamento;
     }
 
+    public Categoria getCategoria() { return categoria; }
+
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
@@ -55,6 +66,8 @@ public class Despesa implements Serializable {
     public void setDataLancamento(LocalDate dataLancamento) {
         this.dataLancamento = dataLancamento;
     }
+
+    public void setCategoria(Categoria categoria) { this.categoria = categoria; }
 
     @Override
     public boolean equals(Object o) {
