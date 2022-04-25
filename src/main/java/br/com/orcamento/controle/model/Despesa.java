@@ -18,7 +18,7 @@ public class Despesa implements Serializable {
     private BigDecimal valor;
     @Column(name = "data_do_lançamento")
     private LocalDate dataLancamento;
-    private Categoria categoria = Categoria.toEnum(1);
+    private Categoria categoria;
 
 
     public Despesa() {
@@ -85,6 +85,11 @@ public class Despesa implements Serializable {
     public static Despesa of(DespesaForm despesaForm){
         return new Despesa(despesaForm.getDescricao(),
                 BigDecimal.valueOf(Double.parseDouble(despesaForm.getValor())),
-                LocalDate.parse(despesaForm.getDataLancamento()));
+                LocalDate.parse(despesaForm.getDataLancamento()),
+                Categoria.toEnum(Integer.parseInt(despesaForm.getCodigoCategoria())));
+    }
+
+    public void alteraCategoria(String codigoCategoria){
+        setCategoria(Categoria.toEnum(Integer.parseInt(codigoCategoria)));
     }
 }

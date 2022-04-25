@@ -13,6 +13,7 @@ public class DespesaForm {
     private String valor;
     @NotBlank(message = "Valor Inválido") @Size(min = 10, max = 11, message = "data deve estar no formado yyyy/MM/dd")
     private String dataLancamento;
+    private String codigoCategoria = "0";
 
     public String getDescricao() {
         return descricao;
@@ -38,4 +39,11 @@ public class DespesaForm {
         this.dataLancamento = dataLancamento;
     }
 
+    public String getCodigoCategoria() {
+        return codigoCategoria;
+    }
+
+    public void setCodigoCategoria(String codigoCategoria) {
+        this.codigoCategoria = codigoCategoria;
+    }
 }

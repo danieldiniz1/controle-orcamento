@@ -9,7 +9,10 @@ public enum Categoria {
     TRANSPORTE(4,"Gastos com Trasnporte como onibus, combustivel, seguro"),
     EDUCACAO(5,"Gastos com Educação, como escola, faculdade, cursos "),
     LAZER(6,"Gastos com Lazer como festas, lanches e saidas"),
-    IMPREVISTOS(7,"Gastos com Imprevistos como acidentes");
+    IMPREVISTOS(7,"Gastos com Imprevistos como acidentes"),
+    SALARIO(8,"Receita proveniente de Salarios e trabalho"),
+    RENDIMENTOS(9,"Receita proveniente de rendimentos financeiros"),
+    RECEBÍVES(10,"Receita proveniente de outros recebíveis");
 
     private Integer codigo;
     private String descricao;
