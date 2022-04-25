@@ -1,18 +1,20 @@
 package br.com.orcamento.controle.controller.dto;
 
 import br.com.orcamento.controle.controller.form.ReceitaForm;
-import br.com.orcamento.controle.model.Receita;
+import br.com.orcamento.controle.model.Categoria;
 
 public class ReceitaDTO {
 
     private String descricao;
     private double valor;
     private String dataLancamento;
+    private String categoria;
 
     public ReceitaDTO(ReceitaForm receita) {
         this.descricao = receita.getDescricao();
         this.valor = Double.parseDouble(receita.getValor());
         this.dataLancamento = receita.getDataLancamento();
+        this.categoria = String.valueOf(Categoria.toEnum(Integer.parseInt(receita.getCodigoCategoria())));
     }
 
     public String getDescricao() {
@@ -27,6 +29,10 @@ public class ReceitaDTO {
         return valor;
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
+
     public void setValor(double valor) {
         this.valor = valor;
     }
@@ -38,4 +44,6 @@ public class ReceitaDTO {
     public void setDataLancamento(String dataLancamento) {
         this.dataLancamento = dataLancamento;
     }
+
+
 }

@@ -51,6 +51,7 @@ public class DespesaService {
         logger.info("Descrição nova " + despesa.getDescricao());
         despesa.setDataLancamento(LocalDate.parse(despesaForm.getDataLancamento()));
         despesa.setValor(BigDecimal.valueOf(Double.parseDouble(despesaForm.getValor())));
+        despesa.alteraCategoria(despesaForm.getCodigoCategoria());
         return despesa;
     }
 
