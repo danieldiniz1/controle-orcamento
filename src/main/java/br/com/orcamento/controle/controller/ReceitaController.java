@@ -4,6 +4,8 @@ import br.com.orcamento.controle.controller.dto.ReceitaDTO;
 import br.com.orcamento.controle.controller.form.ReceitaForm;
 import br.com.orcamento.controle.model.Receita;
 import br.com.orcamento.controle.service.ReceitaService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,8 @@ public class ReceitaController {
     @Autowired
     ReceitaService receitaService;
 
+    private static final Logger logger = LogManager.getLogger(ReceitaController.class);
+
     @PostMapping("/cadastro")
     public ResponseEntity<ReceitaDTO> cadastroReceita(@RequestBody @Valid ReceitaForm receitaForm){
         receitaService.cadastrarReceita(receitaForm);
@@ -29,9 +33,15 @@ public class ReceitaController {
         return ResponseEntity.ok().body(receitaService.listarTodasAsReceitas());
     }
 
-    @GetMapping("listar/{id}")
+    @GetMapping("/listar/{id}")
     public ResponseEntity<Receita> buscarReceitaPorId(@PathVariable Long id){
         return ResponseEntity.ok().body(receitaService.buscarReceitaPorId(id));
+    }
+
+    @GetMapping("/descricao")
+    public ResponseEntity<List<Receita>> buscarReceitaPorDescric(@RequestParam("descricao") String descricao){
+        logger.info("Foi realizado uma busca por receita com descrição de: " + descricao);
+        return ResponseEntity.status(200).body(receitaService.buscarReceitaPorDescricao(descricao));
     }
 
     @PostMapping("atualizar/{id}")
