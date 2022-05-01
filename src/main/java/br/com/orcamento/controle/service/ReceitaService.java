@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +78,7 @@ public class ReceitaService {
     public List<Receita> buscasReceitasPorMesEAno(Integer ano, Integer mes) {
         LocalDate dataInicial = LocalDate.of(ano,mes,1);
         logger.info("Data Inicial: " + dataInicial);
-        LocalDate dataFinal = LocalDate.of(ano, mes ,31);
+        LocalDate dataFinal = LocalDate.of(ano, mes , Month.of(mes).length(Year.of(ano).isLeap()));
         logger.info("Data Inicial: " + dataFinal);
 
         List<Receita> receitasFilttradasPorData = new ArrayList<>();
