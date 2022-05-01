@@ -8,10 +8,12 @@ import br.com.orcamento.controle.repository.DespesaRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -63,5 +65,18 @@ public class DespesaService {
     }
 
 
-
+    public List<Despesa> buscarListaDeDespesaContendoDescricao(String descricao) {
+        List<Despesa> despesasContemDescricao = new ArrayList<>();
+        try {
+//            despesasContemDescricao = despesaRepository.findByDescricaoContaining(descricao);
+            despesasContemDescricao = despesaRepository.encontraPorDescricao(descricao);
+            despesasContemDescricao.forEach(d -> logger.info(d.getDescricao()));
+        } catch (ObjectNotFoundException ex){
+            logger.info("não foi encontrado no banco de dados uma despesa com a descrição: " + descricao);
+        } catch (Exception ex) {
+            logger.info(ex.getMessage());
+            logger.info(ex.getStackTrace());
+        }
+        return despesasContemDescricao;
+    }
 }

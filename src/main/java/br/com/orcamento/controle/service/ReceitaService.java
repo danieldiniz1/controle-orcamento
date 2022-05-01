@@ -60,13 +60,15 @@ public class ReceitaService {
         }
     }
 
-
-    public List<Receita> buscarReceitaPorDescricao(String descricao) {
+    public List<Receita> buscarListaDeReceitaContendoDescricao(String descricao) {
         List<Receita> receita = new ArrayList<>();
         try {
              receita = receitaRepository.encontraPorDescricao(descricao);
         } catch (ObjectNotFoundException ex){
             logger.info("não foi encontrado no banco uma receita com a descrição: " + descricao);
+        } catch (Exception ex) {
+            logger.info(ex.getMessage());
+            logger.info(ex.getStackTrace());
         }
         return receita;
     }

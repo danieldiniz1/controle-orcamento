@@ -39,9 +39,9 @@ public class ReceitaController {
     }
 
     @GetMapping("/descricao")
-    public ResponseEntity<List<Receita>> buscarReceitaPorDescric(@RequestParam("descricao") String descricao){
+    public ResponseEntity<List<Receita>> buscarReceitaPorDescricao(@RequestParam("descricao") String descricao){
         logger.info("Foi realizado uma busca por receita com descrição de: " + descricao);
-        return ResponseEntity.status(200).body(receitaService.buscarReceitaPorDescricao(descricao));
+        return ResponseEntity.status(200).body(receitaService.buscarListaDeReceitaContendoDescricao(descricao));
     }
 
     @PostMapping("atualizar/{id}")
