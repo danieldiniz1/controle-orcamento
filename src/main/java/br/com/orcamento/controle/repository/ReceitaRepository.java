@@ -19,4 +19,6 @@ public interface ReceitaRepository extends JpaRepository<Receita, Long> {
     @Query(value = "SELECT r FROM br.com.orcamento.controle.model.Receita r WHERE r.descricao like %:descricao%")
     List<Receita> encontraPorDescricao(@Param("descricao") String descricao);
 
+    List<Receita> findByDataLancamentoBetween(LocalDate dataInicial, LocalDate dataFinal);
+
 }

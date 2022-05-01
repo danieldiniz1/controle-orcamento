@@ -72,6 +72,25 @@ public class ReceitaService {
         }
         return receita;
     }
+
+    public List<Receita> buscasReceitasPorMesEAno(Integer ano, Integer mes) {
+        LocalDate dataInicial = LocalDate.of(ano,mes,1);
+        logger.info("Data Inicial: " + dataInicial);
+        LocalDate dataFinal = LocalDate.of(ano, mes ,31);
+        logger.info("Data Inicial: " + dataFinal);
+
+        List<Receita> receitasFilttradasPorData = new ArrayList<>();
+        try{
+            receitasFilttradasPorData = receitaRepository.findByDataLancamentoBetween(dataInicial, dataFinal);
+            receitasFilttradasPorData.forEach(receita -> logger.info(receita.getDataLancamento()));
+        } catch (ObjectNotFoundException ex){
+            logger.info("Não foi encontrado no BD uma receita com a data informada");
+        } catch (Exception ex){
+            logger.info(ex.getMessage());
+            logger.info(ex.getCause());
+        }
+        return receitasFilttradasPorData;
+    }
 }
 
 

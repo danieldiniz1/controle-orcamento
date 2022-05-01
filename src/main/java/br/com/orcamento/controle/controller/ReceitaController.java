@@ -57,5 +57,11 @@ public class ReceitaController {
         return ResponseEntity.status(204).build();
     }
 
+    @GetMapping("/{ano}/{mes}")
+    public ResponseEntity<List<Receita>> buscarReceitaPorMesEAno(@PathVariable Integer ano, @PathVariable Integer mes){
+        List<Receita> receitas = receitaService.buscasReceitasPorMesEAno(ano, mes);
+        return ResponseEntity.status(200).body(receitas);
+    }
+
 
 }
