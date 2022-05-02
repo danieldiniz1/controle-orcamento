@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -36,6 +37,13 @@ public class DespesaController {
     public ResponseEntity<List<Despesa>> listarDespesasPorDescricao(@RequestParam(value = "descricao") String descricao){
         logger.info("foi realizado uma pesquisa de despesa contendo a descrição: " + descricao);
         return ResponseEntity.status(200).body(despesaService.buscarListaDeDespesaContendoDescricao(descricao));
+    }
+
+    @GetMapping("/{ano}/{mes}")
+    public ResponseEntity<List<DespesaDTO>> listarDespesaPorMesEAno(@PathVariable Integer ano, @PathVariable Integer mes){
+        List<Despesa> despesas = despesaService.buscarDespesaPorMesEAno(ano, mes);
+        List<DespesaDTO> despesaDTOS = DespesaDTO.converterListaDespesasEmListaDespesasDTO(despesas);
+        return ResponseEntity.status(200).body(despesaDTOS);
     }
 
     @PostMapping("/cadastro")

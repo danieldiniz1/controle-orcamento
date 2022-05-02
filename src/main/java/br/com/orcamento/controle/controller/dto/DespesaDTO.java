@@ -4,6 +4,9 @@ import br.com.orcamento.controle.controller.form.DespesaForm;
 import br.com.orcamento.controle.model.Categoria;
 import br.com.orcamento.controle.model.Despesa;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DespesaDTO {
 
     private String descricao;
@@ -51,5 +54,12 @@ public class DespesaDTO {
 
     public String getCategoria() {
         return categoria;
+    }
+
+    public static List<DespesaDTO> converterListaDespesasEmListaDespesasDTO(List<Despesa> despesas){
+        List<DespesaDTO> despesasDTO = new ArrayList<>();
+        despesas.forEach(despesa -> despesasDTO.add(new DespesaDTO(despesa)));
+        return despesasDTO;
+
     }
 }

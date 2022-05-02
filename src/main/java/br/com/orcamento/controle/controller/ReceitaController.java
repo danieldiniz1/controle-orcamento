@@ -39,10 +39,19 @@ public class ReceitaController {
         return ResponseEntity.ok().body(receitaService.buscarReceitaPorId(id));
     }
 
+
     @GetMapping("/descricao")
     public ResponseEntity<List<Receita>> buscarReceitaPorDescricao(@RequestParam("descricao") String descricao){
         logger.info("Foi realizado uma busca por receita com descrição de: " + descricao);
         return ResponseEntity.status(200).body(receitaService.buscarListaDeReceitaContendoDescricao(descricao));
+    }
+
+    @GetMapping("/{ano}/{mes}")
+    public ResponseEntity<List<ReceitaDTO>> buscarReceitaPorMesEAno(@PathVariable Integer ano, @PathVariable Integer mes){
+        List<Receita> receitas = receitaService.buscasReceitasPorMesEAno(ano, mes);
+        List<ReceitaDTO> receitasDTO = new ArrayList<>();
+        receitas.forEach(receita -> receitasDTO.add(new ReceitaDTO(receita)));
+        return ResponseEntity.status(200).body(receitasDTO);
     }
 
     @PostMapping("atualizar/{id}")
@@ -64,13 +73,7 @@ public class ReceitaController {
 //        return ResponseEntity.status(200).body(receitas);
 //    }
 
-    @GetMapping("/{ano}/{mes}")
-    public ResponseEntity<List<ReceitaDTO>> buscarReceitaPorMesEAno(@PathVariable Integer ano, @PathVariable Integer mes){
-        List<Receita> receitas = receitaService.buscasReceitasPorMesEAno(ano, mes);
-        List<ReceitaDTO> receitasDTO = new ArrayList<>();
-        receitas.forEach(receita -> receitasDTO.add(new ReceitaDTO(receita)));
-        return ResponseEntity.status(200).body(receitasDTO);
-    }
+
 
 
 }

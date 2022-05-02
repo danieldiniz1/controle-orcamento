@@ -79,7 +79,7 @@ public class ReceitaService {
         LocalDate dataInicial = LocalDate.of(ano,mes,1);
         logger.info("Data Inicial: " + dataInicial);
         LocalDate dataFinal = LocalDate.of(ano, mes , Month.of(mes).length(Year.of(ano).isLeap()));
-        logger.info("Data Inicial: " + dataFinal);
+        logger.info("Data final: " + dataFinal);
 
         List<Receita> receitasFilttradasPorData = new ArrayList<>();
         try{

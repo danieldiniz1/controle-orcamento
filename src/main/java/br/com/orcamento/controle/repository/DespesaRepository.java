@@ -18,4 +18,6 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
     @Query(value = "SELECT r FROM br.com.orcamento.controle.model.Despesa r WHERE r.descricao like %:descricao%")
     List<Despesa> encontraPorDescricao(@Param("descricao") String descricao);
+
+    List<Despesa> findByDataLancamentoBetween(LocalDate dataInicial, LocalDate dataFinal);
 }

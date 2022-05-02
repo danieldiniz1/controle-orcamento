@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,5 +80,23 @@ public class DespesaService {
             logger.info(ex.getStackTrace());
         }
         return despesasContemDescricao;
+    }
+
+    public List<Despesa> buscarDespesaPorMesEAno(Integer ano, Integer mes) {
+        LocalDate dataInicial = LocalDate.of(ano, mes, 1);
+        logger.info("A data inicial é: " + dataInicial);
+        LocalDate dataFinal = LocalDate.of(ano, mes, Month.of(mes).length(Year.of(ano).isLeap()));
+        logger.info("A data final é: " + dataFinal);
+
+        List<Despesa> despesas = new ArrayList<>();
+        try{
+            despesas = despesaRepository.findByDataLancamentoBetween(dataInicial, dataFinal);
+        } catch (ObjectNotFoundException ex){
+            logger.info("Não foi encontrado no BD uma despesa com a data informada");
+        } catch (Exception ex){
+            logger.info(ex.getMessage());
+            logger.info(ex.getCause());
+        }
+        return despesas;
     }
 }
