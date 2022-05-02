@@ -22,6 +22,7 @@ public class ReceitaDTO {
         this.descricao = receita.getDescricao();
         this.valor = receita.getValor().doubleValue();
         this.dataLancamento = receita.getDataLancamento().toString();
+        this.categoria = Categoria.toEnum(receita.getCategoria().getCodigo()).toString();
     }
 
     public String getDescricao() {

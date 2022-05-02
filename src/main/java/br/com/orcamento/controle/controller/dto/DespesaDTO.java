@@ -2,6 +2,7 @@ package br.com.orcamento.controle.controller.dto;
 
 import br.com.orcamento.controle.controller.form.DespesaForm;
 import br.com.orcamento.controle.model.Categoria;
+import br.com.orcamento.controle.model.Despesa;
 
 public class DespesaDTO {
 
@@ -15,6 +16,13 @@ public class DespesaDTO {
         this.valor = Double.parseDouble(despesa.getValor());
         this.dataLancamento = despesa.getDataLancamento();
         this.categoria = String.valueOf(Categoria.toEnum(Integer.parseInt(despesa.getCodigoCategoria())));
+    }
+
+    public DespesaDTO(Despesa despesa){
+        this.descricao = despesa.getDescricao();
+        this.valor = despesa.getValor().doubleValue();
+        this.dataLancamento = despesa.getDataLancamento().toString();
+        this.categoria = Categoria.toEnum(despesa.getCategoria().getCodigo()).toString();
     }
 
     public String getDescricao() {

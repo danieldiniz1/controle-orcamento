@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -57,10 +58,18 @@ public class ReceitaController {
         return ResponseEntity.status(204).build();
     }
 
+//    @GetMapping("/{ano}/{mes}")
+//    public ResponseEntity<List<Receita>> buscarReceitaPorMesEAno(@PathVariable Integer ano, @PathVariable Integer mes){
+//        List<Receita> receitas = receitaService.buscasReceitasPorMesEAno(ano, mes);
+//        return ResponseEntity.status(200).body(receitas);
+//    }
+
     @GetMapping("/{ano}/{mes}")
-    public ResponseEntity<List<Receita>> buscarReceitaPorMesEAno(@PathVariable Integer ano, @PathVariable Integer mes){
+    public ResponseEntity<List<ReceitaDTO>> buscarReceitaPorMesEAno(@PathVariable Integer ano, @PathVariable Integer mes){
         List<Receita> receitas = receitaService.buscasReceitasPorMesEAno(ano, mes);
-        return ResponseEntity.status(200).body(receitas);
+        List<ReceitaDTO> receitasDTO = new ArrayList<>();
+        receitas.forEach(receita -> receitasDTO.add(new ReceitaDTO(receita)));
+        return ResponseEntity.status(200).body(receitasDTO);
     }
 
 
